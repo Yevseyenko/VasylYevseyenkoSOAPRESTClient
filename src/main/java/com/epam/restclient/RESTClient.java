@@ -4,8 +4,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import org.apache.log4j.Logger;
 
+
+import javax.ws.rs.core.MediaType;
+import javax.xml.ws.Response;
 import java.io.IOException;
 
 import java.io.InputStream;
@@ -19,6 +25,10 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 public class RESTClient {
+
+    Client client=Client.create();
+    WebResource webResource;
+    ClientResponse response;
     private static final Logger log = Logger.getLogger(RESTClient.class);
     Number number = null;
     static NumberFormat formatter = new DecimalFormat("#0.0000");
@@ -54,13 +64,9 @@ public class RESTClient {
         }
 
         JsonObject rootobj = root.getAsJsonObject();
+        webResource = client.resource(requestUrl);
+        response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        return Double.valueOf(response.getEntity(String.class));
 
-        try {
-            number = formatter.parse(rootobj.get("result").getAsString());
-        } catch (ParseException e) {
-            log.error(e);
-        }
-
-        return number.doubleValue();
     }
 }
