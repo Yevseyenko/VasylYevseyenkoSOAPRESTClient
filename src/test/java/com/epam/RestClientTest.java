@@ -23,7 +23,6 @@ public class RestClientTest {
         double secondNumber = 2;
         double expectedResult = 3.0000;
         double result = restClient.sendAndGetResult(restBaseUrl + "/add/" + firstNumber + "/" + secondNumber);
-
         LOG.info("Expected = " + expectedResult + " and actual = " + result);
         Assert.assertEquals(expectedResult, result);
     }
@@ -34,7 +33,6 @@ public class RestClientTest {
         double secondNumber = 1;
         double expectedResult = 4.0000;
         double result = restClient.sendAndGetResult(restBaseUrl + "/subtract/" + firstNumber + "/" + secondNumber);
-
         LOG.info("Expected = " + expectedResult + " and actual = " + result);
         Assert.assertEquals(expectedResult, result);
     }
@@ -45,7 +43,6 @@ public class RestClientTest {
         double secondNumber = 3;
         double expectedResult = 2.0000;
         double result = restClient.sendAndGetResult(restBaseUrl + "/divide/" + firstNumber + "/" + secondNumber);
-
         LOG.info("Expected = " + expectedResult + " and actual = " + result);
         Assert.assertEquals(expectedResult, result);
     }
@@ -56,7 +53,6 @@ public class RestClientTest {
         double secondNumber = 2;
         double expected = 10.0000;
         double result = restClient.sendAndGetResult(restBaseUrl + "/multiply/" + firstNumber + "/" + secondNumber);
-
         LOG.info("Expected = " + expected + " and actual = " + result);
         Assert.assertEquals(expected, result);
     }
@@ -67,7 +63,6 @@ public class RestClientTest {
         double secondN = 5;
         double expected = 3.0000;
         double result = restClient.sendAndGetResult(restBaseUrl + "/percent/" + firstN + "/" + secondN);
-
         LOG.info("Expected = " + expected + " and actual = " + result);
         Assert.assertEquals(expected, result);
     }
