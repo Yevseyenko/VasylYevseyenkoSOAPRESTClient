@@ -1,66 +1,25 @@
 package com.epam.restclient;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
+import javax.ws.rs.core.MediaType;
 
 public class RESTClient {
     private static final Logger log = Logger.getLogger(RESTClient.class);
-    Number number = null;
-    static NumberFormat formatter = new DecimalFormat("#0.0000");
 
-    public double sendAndGetResult(String requestUrl) {
-        URL url = null;
-        try {
-            url = new URL(requestUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+    public String getSendResponseAndResult(String URI, String Path, double firstNumber, double secondNumber) {
+        ClientConfig config = new DefaultClientConfig();
+        Client client = Client.create(config);
+        WebResource service = client.resource(URI);
+        log.info("Cant return response");
+        return getOutputAsText(service.path(Path).path(firstNumber + "/" + secondNumber));
+    }
 
-        HttpURLConnection request = null;
-        try {
-            request = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            request.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        JsonParser jsonParser = new JsonParser();
-        JsonElement root = null;
-
-        try {
-            root = jsonParser.parse(new InputStreamReader((InputStream) request.getContent()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        JsonObject rootobj = root.getAsJsonObject();
-
-        try {
-            number = formatter.parse(rootobj.get("result").getAsString());
-        } catch (ParseException e) {
-            log.error(e);
-        }
-
-        return number.doubleValue();
+    private static String getOutputAsText(WebResource service) {
+        return service.accept(MediaType.TEXT_PLAIN).get(String.class);
     }
 }

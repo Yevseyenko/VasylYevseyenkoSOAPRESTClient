@@ -20,7 +20,8 @@ public class SOAPClientTest {
     @BeforeTest
     public void setUp() {
         soapClient = new SOAPClient();
-        format = new DecimalFormat("#0.0000");;
+        format = new DecimalFormat("#0.0000");
+        ;
         number = null;
     }
 
